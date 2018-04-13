@@ -83,8 +83,8 @@ void checkWin()
     }
 }
 
-//Calculation
-int Calc(char b[3][3])
+//Evaluation
+int evaluate(char b[3][3])
 {
 	//Check for winning rows
 	for(int row = 0; row < 3; row++)
@@ -155,7 +155,7 @@ int Calc(char b[3][3])
 //The Computer calculates possible moves and return the best move
 int minimax(int depth, int Player)
 {
-	int score = Calc(board);
+	int score = evaluate(board);
 	
 	// If Max won the game
 	if (score == 10)
@@ -165,7 +165,7 @@ int minimax(int depth, int Player)
 	if (score == -10)
 		return score + depth;
 	
-	if(isMovesLeft() == false)
+	if (isMovesLeft() == false)
 		return 0;
 	
 	// if this is the Maximizer's move
@@ -240,7 +240,7 @@ void computerMove()
 				
 				board[i][j] = '_';
 				
-				if(moveVal > aiVal)
+				if (moveVal > aiVal)
 				{
 					aiRow = i;
 					aiCol = j;
