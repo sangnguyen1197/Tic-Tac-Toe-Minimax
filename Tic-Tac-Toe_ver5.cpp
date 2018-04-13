@@ -391,7 +391,7 @@ void playerMove()
 	}
 	else
 	{
-		cout<<"\nERROR: Wrong input! Make your move again!\n"<<endl;
+		cout<<"\nERROR: Wrong input!\n"<<endl;
 		goto start;
 	}
 }
