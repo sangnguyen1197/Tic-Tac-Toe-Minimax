@@ -11,7 +11,7 @@ int row, col;
 char player = 'x', AI = 'o';
 
 
-//khoi tao ban co
+//Initialize
 void initBoard()
 {
 	for (int i = 0; i < 3; i++)
@@ -23,7 +23,7 @@ void initBoard()
     }
 }
 
-//in ra ban co
+//Draw the board
 void draw()
 {
     cout<<endl;
@@ -38,7 +38,7 @@ void draw()
     cout<<endl;
 }
 
-//kiem tra con nuoc di
+//Check for moves left
 bool isMovesLeft()
 {
 	for(int i = 0; i < 3; i++)
@@ -83,10 +83,10 @@ void checkWin()
     }
 }
 
-//tinh toan nuoc di
+//Calculation
 int Calc(char b[3][3])
 {
-	//kiem tra hang ngang xem X hay O thang
+	//Check for winning rows
 	for(int row = 0; row < 3; row++)
 	{
 		if(b[row][0] != '_' && b[row][0] == b[row][1] && b[row][0] == b[row][2])
@@ -103,7 +103,7 @@ int Calc(char b[3][3])
 		}
 	}
 	
-	//kiem tra hang doc xem X hay O thang
+	//Check for winning columns
 	for(int col = 0; col < 3; col++)
 	{
 		if(b[0][col] != '_' && b[0][col] == b[1][col] && b[0][col] == b[2][col])
@@ -120,7 +120,7 @@ int Calc(char b[3][3])
 		}
 	}
 	
-	//kiem tra duong cheo xem X hay O thang
+	//Check for wining diagonals
 	if(b[0][0] == b[1][1] && b[1][1] == b[2][2])
 	{
 		if(b[0][0] == player)
@@ -147,28 +147,28 @@ int Calc(char b[3][3])
 		}
 	}
 		
-	//Neu khong co ai thang
+	//If no one wins
 	return 0;
 }
 
-//thuat toan Min Max
-//May tinh xet cac duong co the di va return gia tri tot nhat
+//MiniMax algorithm
+//The Computer calculates possible moves and return the best move
 int minimax(int depth, int Player)
 {
 	int score = Calc(board);
 	
-	// Neu Max thang
+	// If Max won the game
 	if (score == 10)
 		return score - depth;
 	
-	//Neu Min thang
+	// If Min won the game
 	if (score == -10)
 		return score + depth;
 	
 	if(isMovesLeft() == false)
 		return 0;
 	
-	// Neu la nuoc di cua Max
+	// if this is the Maximizer's move
 	if (Player == -1)
 	{
 		int best = -1000;
@@ -179,13 +179,13 @@ int minimax(int depth, int Player)
 			{
 				if (board[i][j] == '_')
 				{
-					// Thu nuoc di
+					// Make the move
 					board[i][j] = player;
 
-					// Goi ham minimax kieu de quy va chon gia tri best lon nhat
+					// Call minimax recursively and choose the maximum value
 					best = max( best, minimax(depth+1, Player * -1) );
 
-					// Tra lai nuoc di
+					// Undo the move
 					board[i][j] = '_';
 				}
 			}
@@ -193,7 +193,7 @@ int minimax(int depth, int Player)
 		return best;
 	}
 
-	// Neu la nuoc di cua Min
+	// if this is the Minimizer's move
 	else
 	{
 		int best = 1000;
@@ -204,13 +204,13 @@ int minimax(int depth, int Player)
 			{
 				if (board[i][j] == '_')
 				{
-					// Thu nuoc di
+					// Make the move
 					board[i][j] = AI;
 
-					// Goi ham minimax kieu de quy va chon gia tri best nho nhat
+					// Call minimax recursively and choose the minimum value
 					best = min( best, minimax(depth+1, Player * -1) );
 
-					// Tra lai nuoc di
+					// Undo the move
 					board[i][j] = '_';
 				}
 			}
@@ -221,7 +221,7 @@ int minimax(int depth, int Player)
 
 void computerMove()
 {
-	cout<<"=> Luot cua May tinh:"<<endl;
+	cout<<"=> The Computer's turn:"<<endl;
 	int aiRow = -1;
 	int aiCol = -1;
 	
@@ -235,7 +235,7 @@ void computerMove()
 			{
 				board[i][j] = AI;
 				
-				// AI tinh toan nuoc di
+				// Calculate this move
 				int moveVal = -minimax(0, -1);
 				
 				board[i][j] = '_';
@@ -261,7 +261,7 @@ void playerMove()
 	int move = 0;
 	
 	start:
-	cout<<"=> Nhap nuoc di [1...9]: ";
+	cout<<"=> Make your move [1...9]: ";
 	cin>>move;
 	
 	if (move > 0 && move <= 9)
@@ -277,7 +277,7 @@ void playerMove()
 					}
 					else
 					{
-						cout<<"\nERROR: O da duoc di! Vui long nhap lai!\n"<<endl;
+						cout<<"\nERROR: Occupied! Make your move again!\n"<<endl;
 						goto start;
 					}
 				}
@@ -290,7 +290,7 @@ void playerMove()
 					}
 					else
 					{
-						cout<<"\nERROR: O da duoc di! Vui long nhap lai!\n"<<endl;
+						cout<<"\nERROR: Occupied! Make your move again!\n"<<endl;
 						goto start;
 					}
 				}
@@ -303,7 +303,7 @@ void playerMove()
 					}
 					else
 					{
-						cout<<"\nERROR: O da duoc di! Vui long nhap lai!\n"<<endl;
+						cout<<"\nERROR: Occupied! Make your move again!\n"<<endl;
 						goto start;
 					}
 				}
@@ -316,7 +316,7 @@ void playerMove()
 					}
 					else
 					{
-						cout<<"\nERROR: O da duoc di! Vui long nhap lai!\n"<<endl;
+						cout<<"\nERROR: Occupied! Make your move again!\n"<<endl;
 						goto start;
 					}
 				}
@@ -329,7 +329,7 @@ void playerMove()
 					}
 					else
 					{
-						cout<<"\nERROR: O da duoc di! Vui long nhap lai!\n"<<endl;
+						cout<<"\nERROR: Occupied! Make your move again!\n"<<endl;
 						goto start;
 					}
 				}
@@ -342,7 +342,7 @@ void playerMove()
 					}
 					else
 					{
-						cout<<"\nERROR: O da duoc di! Vui long nhap lai!\n"<<endl;
+						cout<<"\nERROR: Occupied! Make your move again!\n"<<endl;
 						goto start;
 					}
 				}
@@ -355,7 +355,7 @@ void playerMove()
 					}
 					else
 					{
-						cout<<"\nERROR: O da duoc di! Vui long nhap lai!\n"<<endl;
+						cout<<"\nERROR: Occupied! Make your move again!\n"<<endl;
 						goto start;
 					}
 				}
@@ -368,7 +368,7 @@ void playerMove()
 					}
 					else
 					{
-						cout<<"\nERROR: O da duoc di! Vui long nhap lai!\n"<<endl;
+						cout<<"\nERROR: Occupied! Make your move again!\n"<<endl;
 						goto start;
 					}
 				}
@@ -381,7 +381,7 @@ void playerMove()
 					}
 					else
 					{
-						cout<<"\nERROR: O da duoc di! Vui long nhap lai\n"<<endl;
+						cout<<"\nERROR: Occupied! Make your move again!\n"<<endl;
 						goto start;
 					}
 				}
@@ -391,17 +391,17 @@ void playerMove()
 	}
 	else
 	{
-		cout<<"\nERROR: Nhap sai! Vui long nhap lai!\n"<<endl;
+		cout<<"\nERROR: Wrong input! Make your move again!\n"<<endl;
 		goto start;
 	}
 }
 
 void playGame()
 {
-    cout<<"Nguoi choi: X, May tinh: O"<<endl;
+    cout<<"Player: X, Computer: O"<<endl;
     
     init:
-    cout<<"\n--> Ban chon di truoc(1) hay di sau(2)? ";
+    cout<<"\n--> Player goes first(1) or second(2)? ";
     unsigned turn;
     cin>>turn;
     
@@ -431,19 +431,19 @@ void playGame()
 	}
 	else
 	{
-		cout<<"\nERROR: Nhap sai! Vui long nhap lai!"<<endl;
+		cout<<"\nERROR: Wrong input!"<<endl;
 		goto init;
 	}
 	
-	printf("\n-----Ket thuc!-----\n");
+	printf("\n-----Match ends!-----\n");
     switch(winner)
     {
     case 0:
-        printf("\n--> Hoa!\n"); break;
+        printf("\n--> Draw!\n"); break;
     case 1:
-        printf("\n--> Nguoi choi thang!\n"); break;
+        printf("\n--> Player wins!\n"); break;
     case 2:
-        printf("\n--> May tinh thang!\n"); break;
+        printf("\n--> Computer wins!\n"); break;
     }
 }
  
